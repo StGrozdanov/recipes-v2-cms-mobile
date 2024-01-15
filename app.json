@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "recipes-v2-cms-mobile",
-    "slug": "recipes-v2-cms-mobile",
+    "name": "recipes-administrate-v2",
+    "slug": "recipes-administrate-v2",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,16 +15,31 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.stgrr.recipesadministratev2"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.stgrr.recipesadministratev2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a2169adf-1d8b-4e88-94b3-ddc35d1a31d5"
+      }
+    },
+    "owner": "stgrr",
+    "updates": {
+      "url": "https://u.expo.dev/a2169adf-1d8b-4e88-94b3-ddc35d1a31d5"
+    },
+    "plugins": [
+      "@config-plugins/detox"
+    ],
+    "runtimeVersion": "1.0.0"
   }
 }
