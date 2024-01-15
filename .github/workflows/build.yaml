@@ -213,7 +213,6 @@ jobs:
     needs: [typecheck_app, lint_app, unit_test_app]
     runs-on: ubuntu-latest
     steps:
-     steps:
       - name: 🏗 Setup repo
         uses: actions/checkout@v3
       - name: 🏗 Setup Node
