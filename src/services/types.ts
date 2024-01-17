@@ -114,3 +114,12 @@ export type BaseCommentData = {
         id: number,
     }
 }
+
+export type ChartDataFormat = {
+    labels: string[],
+    datasets: [
+        {
+            data: number[]
+        }
+    ]
+}

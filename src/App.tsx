@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
 import registerNNPushToken from 'native-notify';
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient(queryConfig);
@@ -25,17 +26,19 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false, animation: 'none' }}>
+      <ThemeProvider>
+        <AuthProvider>
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false, animation: 'none' }}>
 
-            <Stack.Screen name='Home' component={LoadingScreen} />
-            <Stack.Screen name='Login' component={Login} />
-            <Stack.Screen name='Dashboard' component={Dashboard} />
+              <Stack.Screen name='Home' component={LoadingScreen} />
+              <Stack.Screen name='Login' component={Login} />
+              <Stack.Screen name='Dashboard' component={Dashboard} />
 
-          </Stack.Navigator>
-        </NavigationContainer>
-      </AuthProvider>
+            </Stack.Navigator>
+          </NavigationContainer>
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

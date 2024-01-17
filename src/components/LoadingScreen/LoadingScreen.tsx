@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { View, ImageBackground, Image, Text } from 'react-native';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { loadingScreenStyles } from './LoadingScreenStyleSheet';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 export default function LoadingScreen() {
     const { isAuthenticated } = useAuthContext();
@@ -25,10 +26,7 @@ export default function LoadingScreen() {
                     source={require('../../../assets/cooking.png')}
                     style={loadingScreenStyles.logo}
                 />
-                <Image
-                    source={require('../../../assets/admin-panel-loading.gif')}
-                    style={loadingScreenStyles.loadingSpinner}
-                />
+                <LoadingSpinner />
             </ImageBackground>
         </View>
     );
