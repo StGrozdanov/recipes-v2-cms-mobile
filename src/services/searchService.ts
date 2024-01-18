@@ -11,7 +11,7 @@ export const useSearchService = () => {
     const searchUsersByUsername = (username: string): Promise<UserSearchData> => authGET(`${BASE_URL}/search?users=${username}`)
     const searchComments = (query: string): Promise<CommentSearchData> => authGET(`${BASE_URL}/search?comments=${query}`)
     const searchRecipes = (search: string): Promise<RecipeSearchData> => authGET(`${BASE_URL}/search?recipes=${search}`)
-    const globalSearch = (search: string): Promise<GlobalSearchData> => authGET(`${BASE_URL}/search?global=${search}`)
+    const globalSearch = (search: string): Promise<GlobalSearchData[]> => authGET(`${BASE_URL}/search?global=${search}`)
 
     return {
         searchUsersByUsername,

@@ -138,5 +138,5 @@ export type CommentSearchData = {
 
 export type GlobalSearchData = {
     resultType: 'users' | 'comments' | 'recipes',
-    content: string,
+    content: string[],
 }

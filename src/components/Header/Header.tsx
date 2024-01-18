@@ -61,7 +61,7 @@ export default function Header({ notificationsCount }: HeaderProps) {
                         if (searchValue.trim() !== '') {
                             setIsGlobalSearch(true);
                             globalSearch(searchValue)
-                                .then(resp => setGlobalSearchResults(resp! as unknown as GlobalSearchData[]));
+                                .then(resp => setGlobalSearchResults(resp! as GlobalSearchData[]));
                         } else {
                             setIsGlobalSearch(false);
                         }
@@ -121,16 +121,20 @@ export default function Header({ notificationsCount }: HeaderProps) {
                     >
                         {
                             globalSearchResults?.map(result => {
-                                return (
-                                    <TouchableOpacity
-                                        style={actionStyles.searchAction}
-                                        onPress={() => searchRedirectHandler(result.content, result.resultType)}
-                                        key={result.content}
-                                    >
-                                        {iconTypes(theme, result.resultType)}
-                                        <Text style={actionStyles.text}>{result.content}</Text>
-                                    </TouchableOpacity>
-                                );
+                                const results = result.content;
+                                
+                                return results.map(searchResponse => {
+                                    return (
+                                        <TouchableOpacity
+                                            style={actionStyles.searchAction}
+                                            onPress={() => searchRedirectHandler(searchResponse, result.resultType)}
+                                            key={searchResponse + result.resultType}
+                                        >
+                                            {iconTypes(theme, result.resultType)}
+                                            <Text style={actionStyles.text}>{searchResponse}</Text>
+                                        </TouchableOpacity>
+                                    );
+                                })
                             })
                         }
                     </ScrollView>
