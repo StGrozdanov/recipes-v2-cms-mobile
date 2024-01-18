@@ -123,3 +123,20 @@ export type ChartDataFormat = {
         }
     ]
 }
+
+export type RecipeSearchData = {
+    content: string[],
+}
+
+export type UserSearchData = {
+    content: string[],
+}
+
+export type CommentSearchData = {
+    content: string[],
+}
+
+export type GlobalSearchData = {
+    resultType: 'users' | 'comments' | 'recipes',
+    content: string,
+}

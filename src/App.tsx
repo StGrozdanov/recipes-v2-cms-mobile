@@ -10,6 +10,7 @@ import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
 import registerNNPushToken from 'native-notify';
 import { ThemeProvider } from "./contexts/ThemeContext";
+import Panel from "./components/Panel/Panel";
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient(queryConfig);
@@ -33,7 +34,13 @@ export default function App() {
 
               <Stack.Screen name='Home' component={LoadingScreen} />
               <Stack.Screen name='Login' component={Login} />
-              <Stack.Screen name='Dashboard' component={Dashboard} />
+              <Stack.Screen name='Dashboard'>
+                {() =>
+                  <Panel>
+                    <Dashboard />
+                  </Panel>
+                }
+              </Stack.Screen>
 
             </Stack.Navigator>
           </NavigationContainer>

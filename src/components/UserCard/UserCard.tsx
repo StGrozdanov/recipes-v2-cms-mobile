@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBowlRice } from '@fortawesome/free-solid-svg-icons/faBowlRice';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots';
 import { useThemeContext } from "../../hooks/useThemeContext";
+import { userAvatarIsPresent } from '../../utils/avatarIsPresent';
 
 export type UserCardProps = {
     username: string | undefined,
@@ -21,12 +22,6 @@ export default function UserCard({
     avatarURL
 }: UserCardProps) {
     const { theme } = useThemeContext();
-
-    const userAvatarIsPresent = (avatarURL: string) =>
-        avatarURL !== undefined
-        && avatarURL.trim() !== ''
-        && avatarURL !== null
-        && avatarURL !== '/avatar.png';
 
     return (
         <View style={userCardStyles[theme + 'Card']}>
