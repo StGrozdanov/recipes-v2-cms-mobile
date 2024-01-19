@@ -165,3 +165,17 @@ export type RecipeData = {
     Location: string,
     Status: string,
 }
+
+export type CommentData = {
+    content: string,
+    createdAt: string,
+    recipeName: string,
+    id: number,
+    owner: {
+        username: string,
+        avatarURL: string,
+    }
+    Order: number,
+    Owner: string,
+    Location: string,
+}

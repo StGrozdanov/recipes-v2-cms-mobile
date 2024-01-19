@@ -16,10 +16,10 @@ const deleteMessages: Record<string, string> = {
 
 type DeleteActionsProps = {
     collection: string,
-    objectId: string,
+    objectId: string | number,
     removeUser?: (resourceId: string) => void
     deleteFromTable: (resourceId: string) => void
-    deleteComment?: (resourceId: string) => void
+    deleteComment?: (resourceId: number) => void
 }
 
 export default function DeleteAction({
@@ -34,19 +34,19 @@ export default function DeleteAction({
     async function userDeleteHandler() {
         setShowModal(true);
         // await remove(objectId);
-        removeUser && removeUser(objectId);
+        removeUser && removeUser(objectId as string);
     }
 
     async function recipeDeleteHandler() {
         setShowModal(true);
         // await removeRecipe(objectId);
-        deleteFromTable(objectId);
+        deleteFromTable(objectId as string);
     }
 
     async function commentDeleteHandler() {
         setShowModal(true);
         // await removeComment(objectId);
-        deleteComment && deleteComment(objectId);
+        deleteComment && deleteComment(objectId as number);
     }
 
     const deleteHandlers: Record<string, () => Promise<void>> = {

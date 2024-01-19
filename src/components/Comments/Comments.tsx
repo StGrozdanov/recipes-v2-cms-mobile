@@ -1,73 +1,72 @@
 import { FlatList, Image, RefreshControl } from "react-native";
 import { userStyles } from "../Users/UserStyleSheet";
-import { useCallback, useEffect, useState } from "react";
 import { summary } from "../../utils/contentSummary";
+import { useCallback, useEffect, useState } from "react";
 import { useSearchContext } from "../../hooks/useSearchContext";
 import Table from "../Table/Table";
 import SuccessModal from "../ModalDialogue/SuccessModal";
-import { useRecipesService } from "../../services/recipesService";
+import { CommentData } from "../../services/types";
 import { useQueryClient } from "react-query";
-import { RecipeData } from "@/services/types";
+import { useCommentService } from "../../services/commentService";
 
-export default function Recipes() {
+export default function Comments() {
     const [refreshData, setRefreshData] = useState(false);
-    const [recipeData, setRecipeData] = useState<RecipeData[]>();
+    const [commentData, setCommentData] = useState<CommentData[]>();
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const { search } = useSearchContext();
-    const { useGetAllRecipes } = useRecipesService();
-    const { recipes, recipesAreLoading } = useGetAllRecipes();
+    const { useGetAllComments } = useCommentService();
+    const { comments, commentsAreLoading } = useGetAllComments();
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        if (search.collection === 'Recipes') {
-            setRecipeData(() => {
-                return search.results.length > 0 ? recipes?.filter(recipe => search.results.includes(recipe.recipeName)) : []
+        if (search.collection === 'Comments') {
+            setCommentData(() => {
+                return search.results.length > 0 ? comments?.filter(comment => search.results.includes(comment.content)) : []
             });
         } else {
-            recipes?.map((recipe, index) => {
-                recipe.Owner = recipe.ownerName;
-                recipe.Location = recipe.recipeName;
-                recipe.Status = recipe.status;
-                recipe.Order = index;
-                return recipe;
+            comments?.map((comment, index) => {
+                comment.Owner = comment.owner.username;
+                comment.Location = comment.recipeName;
+                comment.Order = index;
+                return comment;
             })
-            setRecipeData(recipes);
+            setCommentData(comments);
         }
     }, [search]);
 
     const onRefresh = useCallback(async () => {
         setRefreshData(true);
-        await queryClient.invalidateQueries(['recipes']);
+        await queryClient.invalidateQueries(['comments']);
         setRefreshData(false);
     }, []);
 
-    const removeRecipe = (recipeId: string) => setRecipeData(recipeData?.filter(recipe => recipe.recipeName !== recipeId));
-
+    const removeComment = (commentId: number) => setCommentData(comments?.filter(comment => comment.id !== commentId));
+    
     return (
         <>
             <FlatList
                 refreshControl={<RefreshControl refreshing={refreshData} onRefresh={onRefresh} />}
                 style={userStyles.container}
-                keyExtractor={item => item.recipeName}
-                data={recipeData}
+                keyExtractor={item => item.Order + item.content + item.id}
+                data={commentData}
                 renderItem={({ item }) => (
                     <Table
-                        name={summary(item.recipeName, 20)}
-                        pictureType='food'
-                        pictureSource={item.imageURL}
+                        name={summary(item.content, 20)}
+                        pictureType='avatar'
+                        pictureSource={item.owner.avatarURL}
                         data={item}
                         isEven={item.Order % 2 === 0}
-                        approveAction={item.status === 'APPROVED' ? '' : 'recipe'}
-                        deleteAction='recipe'
-                        removeRecipe={removeRecipe}
+                        blockAction='user'
+                        deleteAction='comment'
+                        removeComment={removeComment}
                         setSuccessMessage={setSuccessMessage}
                         setShowSuccessMessage={setShowSuccessMessage}
                     />
                 )}
             />
             {
-                recipesAreLoading &&
+                commentsAreLoading &&
                 <Image
                     source={require('../../../assets/admin-panel-loading.gif')}
                     style={{ position: 'absolute', top: '35%', width: '100%', height: '10%', }}

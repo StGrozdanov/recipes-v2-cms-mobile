@@ -51,7 +51,7 @@ export default function OptionsModal({
                                 key={option + option}
                             >
                                 <RadioButton
-                                    selected={selectedOption === option ? true : false}
+                                    selected={selectedOption === option}
                                     text={option}
                                     textColor={modalStyles[theme + 'OptionsText']}
                                     optionColor={modalStyles[theme + 'OptionColor']}

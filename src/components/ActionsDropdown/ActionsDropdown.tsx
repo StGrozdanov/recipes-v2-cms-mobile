@@ -16,7 +16,7 @@ type ActionsDropdownProps = {
     changeRoleAction?: boolean,
     removeUser?: (id: string) => void,
     removeRecipe?: (id: string) => void,
-    removeComment?: (id: string) => void,
+    removeComment?: (id: number) => void,
     setSuccessMessage: Dispatch<React.SetStateAction<string>>,
     setShowSuccessMessage: Dispatch<React.SetStateAction<boolean>>,
     objectId: string,
