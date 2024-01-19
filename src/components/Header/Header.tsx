@@ -58,13 +58,9 @@ export default function Header({ notificationsCount }: HeaderProps) {
                     if (res !== 'global') {
                         setSearch({ results: res!.content, collection: currentPageName });
                     } else {
-                        if (searchValue.trim() !== '') {
-                            setIsGlobalSearch(true);
-                            globalSearch(searchValue)
-                                .then(resp => setGlobalSearchResults(resp! as GlobalSearchData[]));
-                        } else {
-                            setIsGlobalSearch(false);
-                        }
+                        setIsGlobalSearch(true);
+                        globalSearch(searchValue)
+                            .then(resp => setGlobalSearchResults(resp! as GlobalSearchData[]));
                     }
                 })
         }
@@ -111,7 +107,12 @@ export default function Header({ notificationsCount }: HeaderProps) {
                     style={showSearchBar ? headerStyle[theme + 'SearchBar'] : { display: 'none' }}
                     placeholder='type to search...'
                     selectionColor='#55595c'
-                    onChangeText={(text) => setSearchValue(text)}
+                    onChangeText={(text) => {
+                        setSearchValue(text);
+                        if (text === '') {
+                            setSearch({ collection: '', results: [] })
+                        }
+                    }}
                 />
                 {
                     isGlobalSearch &&
@@ -122,7 +123,7 @@ export default function Header({ notificationsCount }: HeaderProps) {
                         {
                             globalSearchResults?.map(result => {
                                 const results = result.content;
-                                
+
                                 return results.map(searchResponse => {
                                     return (
                                         <TouchableOpacity

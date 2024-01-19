@@ -19,27 +19,27 @@ export const useDashboardData = () => {
     ] = useQueries([
         {
             queryKey: 'totalRecipesData',
-            queryFn: (): Promise<{ count: number }> => authGET(`${BASE_URL}/recipes/count`),
+            queryFn: (): Promise<{ count: number }> => authGET(`${BASE_URL}/admin/recipes/count`),
         },
         {
             queryKey: 'totalCommentsData',
-            queryFn: (): Promise<{ count: number }> => authGET(`${BASE_URL}/comments/count`),
+            queryFn: (): Promise<{ count: number }> => authGET(`${BASE_URL}/admin/comments/count`),
         },
         {
             queryKey: 'totalUsersData',
-            queryFn: (): Promise<{ count: number }> => authGET(`${BASE_URL}/users/count`),
+            queryFn: (): Promise<{ count: number }> => authGET(`${BASE_URL}/admin/users/count`),
         },
         {
             queryKey: 'visitationsForTheLastSixMonthsData',
-            queryFn: (): Promise<ChartDataFormat> => authGET(`${BASE_URL}/analytics/visitations`),
+            queryFn: (): Promise<ChartDataFormat> => authGET(`${BASE_URL}/admin/analytics/visitations`),
         },
         {
             queryKey: 'visitationsForTodayData',
-            queryFn: (): Promise<{ count: number }> => authGET(`${BASE_URL}/analytics/visitations/today`),
+            queryFn: (): Promise<{ count: number }> => authGET(`${BASE_URL}/admin/analytics/visitations/today`),
         },
         {
             queryKey: 'mostActiveUserData',
-            queryFn: (): Promise<UserCardProps> => authGET(`${BASE_URL}/analytics/most-active-user`),
+            queryFn: (): Promise<UserCardProps> => authGET(`${BASE_URL}/admin/analytics/most-active-user`),
         },
     ]);
 

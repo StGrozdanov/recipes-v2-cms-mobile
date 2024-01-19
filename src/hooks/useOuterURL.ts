@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Alert, Linking } from "react-native";
+import { Linking } from "react-native";
 
 /**
  * Hook that handles redirects to external URL. At first it will attempt to open it ad check if it's a valid URL
@@ -11,22 +11,10 @@ export const useOuterURL = () => {
 
     useEffect(() => {
         if (URL !== '') {
-            let supported;
-
-            const linkingCanOpenHandler = async () => {
-                supported = await Linking.canOpenURL(URL);
+            const linkingHandler = async () => {
+                await Linking.openURL(URL);
             }
-
-            linkingCanOpenHandler();
-
-            if (supported) {
-                const linkingHandler = async () => {
-                    await Linking.openURL(URL);
-                }
-                linkingHandler();
-            } else {
-                Alert.alert(`Don't know how to open this URL: ${URL}`);
-            }
+            linkingHandler();
         }
     }, [URL]);
 

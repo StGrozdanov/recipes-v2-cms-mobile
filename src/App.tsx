@@ -11,6 +11,9 @@ import registerRootComponent from 'expo/build/launch/registerRootComponent';
 import registerNNPushToken from 'native-notify';
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Panel from "./components/Panel/Panel";
+import Users from "./components/Users/Users";
+import { SearchProvider } from "./contexts/SearchContext";
+import Recipes from "./components/Recipes/Recipes";
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient(queryConfig);
@@ -28,23 +31,27 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <AuthProvider>
-          <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false, animation: 'none' }}>
+        <SearchProvider>
+          <AuthProvider>
+            <NavigationContainer>
+              <Stack.Navigator screenOptions={{ headerShown: false, animation: 'none' }}>
 
-              <Stack.Screen name='Home' component={LoadingScreen} />
-              <Stack.Screen name='Login' component={Login} />
-              <Stack.Screen name='Dashboard'>
-                {() =>
-                  <Panel>
-                    <Dashboard />
-                  </Panel>
-                }
-              </Stack.Screen>
+                <Stack.Screen name='Home' component={LoadingScreen} />
+                <Stack.Screen name='Login' component={Login} />
+                <Stack.Screen name='Dashboard'>
+                  {() => <Panel><Dashboard /></Panel>}
+                </Stack.Screen>
+                <Stack.Screen name="Users" initialParams={{ itemId: '' }}>
+                  {() => <Panel><Users /></Panel>}
+                </Stack.Screen>
+                <Stack.Screen name="Recipes" initialParams={{ itemId: '' }}>
+                  {() => <Panel><Recipes /></Panel>}
+                </Stack.Screen>
 
-            </Stack.Navigator>
-          </NavigationContainer>
-        </AuthProvider>
+              </Stack.Navigator>
+            </NavigationContainer>
+          </AuthProvider>
+        </SearchProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

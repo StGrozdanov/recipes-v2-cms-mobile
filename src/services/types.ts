@@ -140,3 +140,28 @@ export type GlobalSearchData = {
     resultType: 'users' | 'comments' | 'recipes',
     content: string[],
 }
+
+export type UserData = {
+    username: string,
+    avatarURL: string,
+    coverPhotoURL: string,
+    email: string,
+    createdRecipesCount: number,
+    role: string,
+    isBlocked: boolean,
+    id: number,
+    Profile: string,
+    Status: 'offline' | 'online',
+    Order: number,
+}
+
+export type RecipeData = {
+    recipeName: string,
+    imageURL: string,
+    ownerName: string,
+    status: 'APPROVED' | 'PENDING',
+    Order: number,
+    Owner: string,
+    Location: string,
+    Status: string,
+}
