@@ -34,7 +34,7 @@ export default function Recipes() {
             })
             setRecipeData(recipes);
         }
-    }, [search]);
+    }, [search, recipes]);
 
     const onRefresh = useCallback(async () => {
         setRefreshData(true);
@@ -45,39 +45,37 @@ export default function Recipes() {
     const removeRecipe = (recipeId: string) => setRecipeData(recipeData?.filter(recipe => recipe.recipeName !== recipeId));
 
     return (
-        <>
-            <FlatList
-                refreshControl={<RefreshControl refreshing={refreshData} onRefresh={onRefresh} />}
-                style={userStyles.container}
-                keyExtractor={item => item.recipeName}
-                data={recipeData}
-                renderItem={({ item }) => (
-                    <Table
-                        name={summary(item.recipeName, 20)}
-                        pictureType='food'
-                        pictureSource={item.imageURL}
-                        data={item}
-                        isEven={item.Order % 2 === 0}
-                        approveAction={item.status === 'APPROVED' ? '' : 'recipe'}
-                        deleteAction='recipe'
-                        removeRecipe={removeRecipe}
-                        setSuccessMessage={setSuccessMessage}
-                        setShowSuccessMessage={setShowSuccessMessage}
-                    />
-                )}
+        recipesAreLoading
+            ? <Image
+                source={require('../../../assets/admin-panel-loading.gif')}
+                style={{ position: 'absolute', top: '35%', width: '100%', height: '10%', }}
             />
-            {
-                recipesAreLoading &&
-                <Image
-                    source={require('../../../assets/admin-panel-loading.gif')}
-                    style={{ position: 'absolute', top: '35%', width: '100%', height: '10%', }}
+            : <>
+                <FlatList
+                    refreshControl={<RefreshControl refreshing={refreshData} onRefresh={onRefresh} />}
+                    style={userStyles.container}
+                    keyExtractor={item => item.recipeName}
+                    data={recipeData}
+                    renderItem={({ item }) => (
+                        <Table
+                            name={summary(item.recipeName, 20)}
+                            pictureType='food'
+                            pictureSource={item.imageURL}
+                            data={item}
+                            isEven={item.Order % 2 === 0}
+                            approveAction={item.status === 'APPROVED' ? '' : 'recipe'}
+                            deleteAction='recipe'
+                            removeRecipe={removeRecipe}
+                            setSuccessMessage={setSuccessMessage}
+                            setShowSuccessMessage={setShowSuccessMessage}
+                        />
+                    )}
                 />
-            }
-            <SuccessModal
-                visible={showSuccessMessage}
-                setVisible={setShowSuccessMessage}
-                message={successMessage}
-            />
-        </>
+                <SuccessModal
+                    visible={showSuccessMessage}
+                    setVisible={setShowSuccessMessage}
+                    message={successMessage}
+                />
+            </>
     );
 }

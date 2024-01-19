@@ -32,7 +32,7 @@ export default function Users() {
             })
             setUserData(users);
         }
-    }, [search]);
+    }, [search, users]);
 
     const removeUser = (userId: string) => setUserData(userData?.filter(user => user.username !== userId));
 
@@ -43,41 +43,39 @@ export default function Users() {
     }, []);
 
     return (
-        <>
-            <FlatList
-                refreshControl={<RefreshControl refreshing={refreshData} onRefresh={onRefresh} />}
-                style={userStyles.container}
-                keyExtractor={item => item.username}
-                data={userData}
-                renderItem={({ item }) => (
-                    <Table
-                        name={item.username}
-                        pictureSource={item.avatarURL}
-                        pictureType='avatar'
-                        data={item}
-                        isEven={item.Order % 2 === 0}
-                        blockAction='user'
-                        changeRoleAction
-                        deleteAction='user'
-                        editAction='user'
-                        removeUser={removeUser}
-                        setSuccessMessage={setSuccessMessage}
-                        setShowSuccessMessage={setShowSuccessMessage}
-                    />
-                )}
+        usersAreLoading
+            ? <Image
+                source={require('../../../assets/admin-panel-loading.gif')}
+                style={{ position: 'absolute', top: '35%', width: '100%', height: '10%', }}
             />
-            {
-                usersAreLoading &&
-                <Image
-                    source={require('../../../assets/admin-panel-loading.gif')}
-                    style={{ position: 'absolute', top: '35%', width: '100%', height: '10%', }}
+            : <>
+                <FlatList
+                    refreshControl={<RefreshControl refreshing={refreshData} onRefresh={onRefresh} />}
+                    style={userStyles.container}
+                    keyExtractor={item => item.username}
+                    data={userData}
+                    renderItem={({ item }) => (
+                        <Table
+                            name={item.username}
+                            pictureSource={item.avatarURL}
+                            pictureType='avatar'
+                            data={item}
+                            isEven={item.Order % 2 === 0}
+                            blockAction='user'
+                            changeRoleAction
+                            deleteAction='user'
+                            editAction='user'
+                            removeUser={removeUser}
+                            setSuccessMessage={setSuccessMessage}
+                            setShowSuccessMessage={setShowSuccessMessage}
+                        />
+                    )}
                 />
-            }
-            <SuccessModal
-                visible={showSuccessMessage}
-                setVisible={setShowSuccessMessage}
-                message={successMessage}
-            />
-        </>
+                <SuccessModal
+                    visible={showSuccessMessage}
+                    setVisible={setShowSuccessMessage}
+                    message={successMessage}
+                />
+            </>
     );
 }

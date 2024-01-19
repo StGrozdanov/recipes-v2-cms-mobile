@@ -18,8 +18,8 @@ export default function Settings() {
     const appearanceHandler = () => setShowAppearanceOptions(!showAppearanceOptions);
 
     const logoutHandler = async () => {
-        navigator.navigate("Login" as never);
         await userLogout();
+        navigator.navigate("Login" as never);
     }
 
     return (

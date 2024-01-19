@@ -33,7 +33,7 @@ export default function Comments() {
             })
             setCommentData(comments);
         }
-    }, [search]);
+    }, [search, comments]);
 
     const onRefresh = useCallback(async () => {
         setRefreshData(true);
@@ -42,41 +42,39 @@ export default function Comments() {
     }, []);
 
     const removeComment = (commentId: number) => setCommentData(comments?.filter(comment => comment.id !== commentId));
-    
+
     return (
-        <>
-            <FlatList
-                refreshControl={<RefreshControl refreshing={refreshData} onRefresh={onRefresh} />}
-                style={userStyles.container}
-                keyExtractor={item => item.Order + item.content + item.id}
-                data={commentData}
-                renderItem={({ item }) => (
-                    <Table
-                        name={summary(item.content, 20)}
-                        pictureType='avatar'
-                        pictureSource={item.owner.avatarURL}
-                        data={item}
-                        isEven={item.Order % 2 === 0}
-                        blockAction='user'
-                        deleteAction='comment'
-                        removeComment={removeComment}
-                        setSuccessMessage={setSuccessMessage}
-                        setShowSuccessMessage={setShowSuccessMessage}
-                    />
-                )}
+        commentsAreLoading
+            ? <Image
+                source={require('../../../assets/admin-panel-loading.gif')}
+                style={{ position: 'absolute', top: '35%', width: '100%', height: '10%', }}
             />
-            {
-                commentsAreLoading &&
-                <Image
-                    source={require('../../../assets/admin-panel-loading.gif')}
-                    style={{ position: 'absolute', top: '35%', width: '100%', height: '10%', }}
+            : <>
+                <FlatList
+                    refreshControl={<RefreshControl refreshing={refreshData} onRefresh={onRefresh} />}
+                    style={userStyles.container}
+                    keyExtractor={item => item.Order + item.content + item.id}
+                    data={commentData}
+                    renderItem={({ item }) => (
+                        <Table
+                            name={summary(item.content, 20)}
+                            pictureType='avatar'
+                            pictureSource={item.owner.avatarURL}
+                            data={item}
+                            isEven={item.Order % 2 === 0}
+                            blockAction='user'
+                            deleteAction='comment'
+                            removeComment={removeComment}
+                            setSuccessMessage={setSuccessMessage}
+                            setShowSuccessMessage={setShowSuccessMessage}
+                        />
+                    )}
                 />
-            }
-            <SuccessModal
-                visible={showSuccessMessage}
-                setVisible={setShowSuccessMessage}
-                message={successMessage}
-            />
-        </>
+                <SuccessModal
+                    visible={showSuccessMessage}
+                    setVisible={setShowSuccessMessage}
+                    message={successMessage}
+                />
+            </>
     );
 }

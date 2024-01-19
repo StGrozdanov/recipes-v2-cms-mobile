@@ -6,8 +6,8 @@ import { ContainerProps } from "./types";
 type AuthContextType = {
     isAuthenticated: boolean,
     token: string,
-    userLogin: (loginData: User) => void,
-    userLogout: () => void,
+    userLogin: (loginData: User) => Promise<void>,
+    userLogout: () => Promise<void>,
     avatar: string,
     username: string,
     email: string,
@@ -28,8 +28,8 @@ const defaultUserValues: User = {
 export const AuthContext = createContext<AuthContextType>({
     isAuthenticated: false,
     token: '',
-    userLogin: (_loginData: User) => console.info('nothing here yet.'),
-    userLogout: () => console.info('nothing here yet.'),
+    userLogin: (_loginData: User) => Promise.resolve(console.info('nothing here yet.')),
+    userLogout: () => Promise.resolve(console.info('nothing here yet.')),
     avatar: '',
     username: '',
     email: '',
@@ -46,11 +46,13 @@ export const AuthProvider = ({ children }: ContainerProps) => {
         defaultValue: defaultUserValues
     });
 
-    const userLogin = (userData: User) => setUserLocalStorageValue(userData);
+    const userLogin = async (userData: User) => await setUserLocalStorageValue(userData);
 
-    const userLogout = () => {
-        clearLocalStorage();
-        setUserLocalStorageValue(defaultUserValues);
+    const userLogout = async () => {
+        await Promise.all([
+            clearLocalStorage(),
+            setUserLocalStorageValue(defaultUserValues),
+        ])
     };
 
     const isAuthenticated = user.sessionToken !== '';

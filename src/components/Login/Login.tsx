@@ -29,7 +29,7 @@ export default function Login() {
             const { loginResponse } = await login({ username, password });
             const authData = await loginResponse;
             if (authData?.isAdministrator) {
-                userLogin(authData);
+                await userLogin(authData);
                 navigation.navigate('Dashboard' as never);
             } else {
                 indicateLoginError('You don\'t have a permission to use this app.');
