@@ -19,7 +19,7 @@ type ActionsDropdownProps = {
     removeComment?: (id: number) => void,
     setSuccessMessage: Dispatch<React.SetStateAction<string>>,
     setShowSuccessMessage: Dispatch<React.SetStateAction<boolean>>,
-    objectId: string,
+    objectId: number,
     setDropdownIsExpanded: Dispatch<React.SetStateAction<boolean>>,
     userIsBlocked?: boolean,
     userRole?: string,

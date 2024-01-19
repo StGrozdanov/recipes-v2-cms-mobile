@@ -11,7 +11,7 @@ const roleChoices = ['Администратор', 'Модератор', 'Пот
 
 type RoleActionProps = {
     userRole: string,
-    userId: string,
+    userId: number,
 }
 
 export default function ChangeRoleAction({

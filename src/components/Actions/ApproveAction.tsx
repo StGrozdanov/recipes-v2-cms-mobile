@@ -6,7 +6,7 @@ import { faFileCircleCheck } from '@fortawesome/free-solid-svg-icons/faFileCircl
 
 export type ActionProps = {
     collection: string,
-    resourceId: string,
+    resourceId: number,
     setDropdownIsExpanded: (value: boolean) => void,
     setShowSuccessMessage: (value: boolean) => void,
     setSuccessMessage: (value: string) => void,
