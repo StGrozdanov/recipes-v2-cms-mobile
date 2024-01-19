@@ -16,6 +16,7 @@ import { SearchProvider } from "./contexts/SearchContext";
 import Recipes from "./components/Recipes/Recipes";
 import Comments from "./components/Comments/Comments";
 import Settings from "./components/Settings/Settings";
+import UserProfile from "./components/UserProfile/UserProfile";
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient(queryConfig);
@@ -54,6 +55,9 @@ export default function App() {
                 </Stack.Screen>
                 <Stack.Screen name="Settings">
                   {() => <Panel><Settings /></Panel>}
+                </Stack.Screen>
+                <Stack.Screen name="Profile" initialParams={{ itemId: 0 }}>
+                  {() => <Panel><UserProfile /></Panel>}
                 </Stack.Screen>
 
               </Stack.Navigator>
