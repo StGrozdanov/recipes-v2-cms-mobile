@@ -1,13 +1,14 @@
 import { BASE_URL, RecipeData } from "./types";
 import { useRequestHandler } from "../hooks/useRequestHandler";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
+import { useCallback } from "react";
 
 /**
  * hook to handle all recipe related requests
  * @returns handler functions
  */
 export const useRecipesService = () => {
-    const { authGET } = useRequestHandler();
+    const { authGET, authDELETE } = useRequestHandler();
 
     const useGetAllRecipes = () => {
         const {
@@ -23,7 +24,30 @@ export const useRecipesService = () => {
         }
     }
 
+    const useDeleteRecipe = () => {
+        const {
+            mutateAsync: deleteRecipeMutation,
+            isLoading,
+            isError,
+        } = useMutation((id: number) => {
+            const response: Promise<{ status: string }> = authDELETE(`${BASE_URL}/admin/recipes/${id}`);
+            return response;
+        });
+
+        const deleteRecipe = useCallback(async (id: number) => {
+            try {
+                const deleteRecipeResponse = deleteRecipeMutation(id);
+                return { deleteRecipeResponse };
+            } catch (error) {
+                return { error };
+            }
+        }, [deleteRecipeMutation]);
+
+        return { deleteRecipe, isLoading, isError };
+    };
+
     return {
         useGetAllRecipes,
+        useDeleteRecipe,
     }
 }

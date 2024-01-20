@@ -34,7 +34,7 @@ export default function Users() {
         }
     }, [search, users]);
 
-    const removeUser = (userId: string) => setUserData(userData?.filter(user => user.username !== userId));
+    const removeUser = (userId: number) => setUserData(userData?.filter(user => user.id !== userId));
 
     const onRefresh = useCallback(async () => {
         setRefreshData(true);

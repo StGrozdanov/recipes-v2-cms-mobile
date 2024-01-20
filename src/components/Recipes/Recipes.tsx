@@ -42,7 +42,7 @@ export default function Recipes() {
         setRefreshData(false);
     }, []);
 
-    const removeRecipe = (recipeId: string) => setRecipeData(recipeData?.filter(recipe => recipe.recipeName !== recipeId));
+    const removeRecipe = (recipeId: number) => setRecipeData(recipeData?.filter(recipe => recipe.id !== recipeId));
 
     return (
         recipesAreLoading

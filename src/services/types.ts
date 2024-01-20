@@ -164,6 +164,7 @@ export type RecipeData = {
     Owner: string,
     Location: string,
     Status: string,
+    id: number,
 }
 
 export type CommentData = {
