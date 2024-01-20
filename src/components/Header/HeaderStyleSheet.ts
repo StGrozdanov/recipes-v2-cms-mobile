@@ -82,18 +82,23 @@ export const headerStyle: Record<string, any> = StyleSheet.create({
         top: windowHeight * 0.065,
     },
 
+    lightNotificationCounterContainer: {
+        borderRadius: 50,
+        position: 'absolute',
+        top: -7,
+        right: 0,
+        overflow: 'hidden',
+    },
+
     lightNotificationCounter: {
         color: 'white',
         borderRadius: 50,
         backgroundColor: 'red',
         textAlign: 'center',
         paddingVertical: 3,
-        fontSize: 8,
+        fontSize: 9.5,
         width: 17,
         height: 17,
-        position: 'absolute',
-        top: -7,
-        right: 0,
     },
 
     darkContainer: {
@@ -123,18 +128,23 @@ export const headerStyle: Record<string, any> = StyleSheet.create({
         color: 'rgba(124,113,192,0.65)',
     },
 
+    darkNotificationCounterContainer: {
+        borderRadius: 50,
+        position: 'absolute',
+        top: -15,
+        right: -8,
+        overflow: 'hidden',
+    },
+
     darkNotificationCounter: {
         color: 'white',
         borderRadius: 50,
         backgroundColor: 'red',
         textAlign: 'center',
         paddingVertical: 3,
-        fontSize: 8,
+        fontSize: 9.5,
         width: 17,
-        height: 17,
-        position: 'absolute',
-        top: -15,
-        right: -8,
+        height: 17,       
     },
 
     darkCurrentPage: {

@@ -1,4 +1,4 @@
-import { NOTIFY_APP_ID, NOTIFY_APP_TOKEN } from "@env";
+import { NOTIFY_APP_ID, NOTIFY_APP_TOKEN, SOCKET_URL } from "@env";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthProvider } from './contexts/AuthContext';
@@ -17,6 +17,8 @@ import Recipes from "./components/Recipes/Recipes";
 import Comments from "./components/Comments/Comments";
 import Settings from "./components/Settings/Settings";
 import UserProfile from "./components/UserProfile/UserProfile";
+import useWebSocket from "react-use-websocket";
+import Notifications from "./components/Notifications/Notifications";
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient(queryConfig);
@@ -30,6 +32,22 @@ queryClient.resumePausedMutations();
 
 export default function App() {
   registerNNPushToken(NOTIFY_APP_ID, NOTIFY_APP_TOKEN);
+
+  useWebSocket(SOCKET_URL, {
+    shouldReconnect: (_closeEvent) => true,
+    onMessage: (event: WebSocketEventMap['message']) => {
+      let usernames: string[] = [];
+      try {
+        usernames = JSON.parse(event.data);
+      } catch (err) {
+        console.info(event.data)
+      }
+      usernames.forEach(username => queryClient.invalidateQueries(['userNotifications', username]));
+    },
+    reconnectInterval: (attemptNumber) => Math.min(Math.pow(2, attemptNumber) * 2000, 10000),
+    reconnectAttempts: 10,
+    share: true,
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -58,6 +76,9 @@ export default function App() {
                 </Stack.Screen>
                 <Stack.Screen name="Profile" initialParams={{ itemId: 0 }}>
                   {() => <Panel><UserProfile /></Panel>}
+                </Stack.Screen>
+                <Stack.Screen name="Notifications">
+                  {() => <Panel><Notifications /></Panel>}
                 </Stack.Screen>
 
               </Stack.Navigator>

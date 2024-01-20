@@ -148,8 +148,11 @@ export default function Header({ notificationsCount }: HeaderProps) {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity style={headerStyle[theme + 'IconContainer']} onPress={showNotificationsHandler}>
-                    {notificationsCount > 0 &&
-                        <Text style={headerStyle[theme + 'NotificationCounter']}>{notificationsCount}</Text>
+                    {
+                        notificationsCount > 0 &&
+                        <View style={headerStyle[theme + 'NotificationCounterContainer']}>
+                            <Text style={headerStyle[theme + 'NotificationCounter']}>{notificationsCount}</Text>
+                        </View>
                     }
                     <FontAwesomeIcon
                         style={headerStyle[theme + 'Icons']}
