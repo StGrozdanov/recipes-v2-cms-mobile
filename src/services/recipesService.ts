@@ -8,7 +8,7 @@ import { useCallback } from "react";
  * @returns handler functions
  */
 export const useRecipesService = () => {
-    const { authGET, authDELETE } = useRequestHandler();
+    const { authGET, authDELETE, authPATCH } = useRequestHandler();
 
     const useGetAllRecipes = () => {
         const {
@@ -46,8 +46,31 @@ export const useRecipesService = () => {
         return { deleteRecipe, isLoading, isError };
     };
 
+    const useApproveRecipe = () => {
+        const {
+            mutateAsync: approveRecipeMutation,
+            isLoading,
+            isError,
+        } = useMutation((recipeId: number) => {
+            const response: Promise<{ status: string }> = authPATCH(`${BASE_URL}/admin/recipes/${recipeId}/approve`);
+            return response;
+        });
+
+        const approveRecipe = useCallback(async (recipeId: number) => {
+            try {
+                const approveRecipeResponse = approveRecipeMutation(recipeId);
+                return { approveRecipeResponse };
+            } catch (error) {
+                return { error };
+            }
+        }, [approveRecipeMutation]);
+
+        return { approveRecipe, isLoading, isError };
+    };
+
     return {
         useGetAllRecipes,
         useDeleteRecipe,
+        useApproveRecipe,
     }
 }

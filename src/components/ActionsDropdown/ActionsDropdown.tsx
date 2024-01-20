@@ -69,22 +69,24 @@ export default function ActionsDropdown({
                 />
             }
             {
-                blockAction &&
-                    !userIsBlocked
-                    ? <BlockAction
-                        collection={blockAction}
-                        resourceId={objectId}
-                        setDropdownIsExpanded={setDropdownIsExpanded}
-                        setSuccessMessage={setSuccessMessage}
-                        setShowSuccessMessage={setShowSuccessMessage}
-                    />
-                    : <UnblockAction
-                        collection={blockAction!}
-                        resourceId={objectId}
-                        setDropdownIsExpanded={setDropdownIsExpanded}
-                        setSuccessMessage={setSuccessMessage}
-                        setShowSuccessMessage={setShowSuccessMessage}
-                    />
+                blockAction && !userIsBlocked &&
+                <BlockAction
+                    collection={blockAction}
+                    resourceId={objectId}
+                    setDropdownIsExpanded={setDropdownIsExpanded}
+                    setSuccessMessage={setSuccessMessage}
+                    setShowSuccessMessage={setShowSuccessMessage}
+                />
+            }
+            {
+                blockAction && userIsBlocked &&
+                <UnblockAction
+                    collection={blockAction}
+                    resourceId={objectId}
+                    setDropdownIsExpanded={setDropdownIsExpanded}
+                    setSuccessMessage={setSuccessMessage}
+                    setShowSuccessMessage={setShowSuccessMessage}
+                />
             }
             {
                 approveAction &&

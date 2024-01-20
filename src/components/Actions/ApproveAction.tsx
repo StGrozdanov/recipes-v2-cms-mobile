@@ -2,7 +2,8 @@ import { TouchableOpacity, Text } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { actionStyles } from "./ActionsStyleSheet";
 import { faFileCircleCheck } from '@fortawesome/free-solid-svg-icons/faFileCircleCheck';
-// import { approveRecipe } from "../../services/recipeService";
+import { useRecipesService } from "../../services/recipesService";
+import { useQueryClient } from "react-query";
 
 export type ActionProps = {
     collection: string,
@@ -14,14 +15,19 @@ export type ActionProps = {
 
 export default function ApproveAction({
     collection,
-    // resourceId,
+    resourceId,
     setDropdownIsExpanded,
     setShowSuccessMessage,
     setSuccessMessage,
 }: ActionProps) {
+    const { useApproveRecipe } = useRecipesService();
+    const { approveRecipe } = useApproveRecipe();
+    const queryClient = useQueryClient();
 
     async function approveRecipeHandler() {
-        // await approveRecipe(resourceId);
+        const { approveRecipeResponse } = await approveRecipe(resourceId);
+        await approveRecipeResponse;
+        await queryClient.invalidateQueries(['recipes']);
         setDropdownIsExpanded(false);
         setSuccessMessage('Успешно одобрихте рецептата');
         setShowSuccessMessage(true);
