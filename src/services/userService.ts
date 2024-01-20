@@ -1,4 +1,4 @@
-import { BASE_URL, ChangeRoleParams, UserData } from "./types";
+import { BASE_URL, BlockUserParams, ChangeRoleParams, UserData } from "./types";
 import { useRequestHandler } from "../hooks/useRequestHandler";
 import { useMutation, useQuery } from "react-query";
 import { useCallback } from "react";
@@ -8,7 +8,7 @@ import { useCallback } from "react";
  * @returns handler functions
  */
 export const useUserService = () => {
-    const { authGET, authDELETE, authPATCH } = useRequestHandler();
+    const { authGET, authDELETE, authPATCH, authPOST } = useRequestHandler();
 
     const useGetAllUsers = () => {
         const {
@@ -68,9 +68,55 @@ export const useUserService = () => {
         return { changeRole, isLoading, isError };
     };
 
+    const useBlockUser = () => {
+        const {
+            mutateAsync: blockUserMutation,
+            isLoading,
+            isError,
+        } = useMutation((data: BlockUserParams) => {
+            const response: Promise<{ status: string }> = authPOST(`${BASE_URL}/admin/users/block`, data);
+            return response;
+        });
+
+        const blockUser = useCallback(async (data: BlockUserParams) => {
+            try {
+                const blockUserResponse = blockUserMutation(data);
+                return { blockUserResponse };
+            } catch (error) {
+                return { error };
+            }
+        }, [blockUserMutation]);
+
+        return { blockUser, isLoading, isError };
+    };
+
+    const useUnblockUser = () => {
+        const {
+            mutateAsync: unblockUserMutation,
+            isLoading,
+            isError,
+        } = useMutation((userId: number) => {
+            const response: Promise<{ status: string }> = authPOST(`${BASE_URL}/admin/users/unblock/${userId}`);
+            return response;
+        });
+
+        const unblockUser = useCallback(async (userId: number) => {
+            try {
+                const unblockUserResponse = unblockUserMutation(userId);
+                return { unblockUserResponse };
+            } catch (error) {
+                return { error };
+            }
+        }, [unblockUserMutation]);
+
+        return { unblockUser, isLoading, isError };
+    };
+
     return {
         useGetAllUsers,
         useDeleteUser,
         useUpdateRole,
+        useBlockUser,
+        useUnblockUser,
     }
 }

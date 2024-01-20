@@ -90,7 +90,7 @@ export default function Table({
                     userRole={data.role}
                     removeUser={removeUser}
                     setDropdownIsExpanded={setDropdownIsExpanded}
-                    userIsBlocked={data.blocked}
+                    userIsBlocked={data.isBlocked}
                     removeRecipe={removeRecipe}
                     removeComment={removeComment}
                     setSuccessMessage={setSuccessMessage}

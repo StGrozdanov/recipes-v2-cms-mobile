@@ -7,27 +7,33 @@ import { useState } from "react";
 import { modalStyles } from "../ModalDialogue/ModalDialogueStyleSheet";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import ModalDialogue from "../ModalDialogue/ModalDialogue";
-// import { blockUser } from "../../services/userService";
 import { ActionProps } from "./ApproveAction";
+import { useUserService } from "../../services/userService";
+import { useQueryClient } from "react-query";
 
-export default function BlockAction({ 
-    collection, 
-    // resourceId, 
-    setDropdownIsExpanded, 
-    setSuccessMessage, 
-    setShowSuccessMessage 
+export default function BlockAction({
+    collection,
+    resourceId,
+    setDropdownIsExpanded,
+    setSuccessMessage,
+    setShowSuccessMessage
 }: ActionProps) {
     const [showModal, setShowModal] = useState(false);
     const [inputIsFocused, setInputIsFocused] = useState(false);
-    // const [reason, setReason] = useState('');
+    const [reason, setReason] = useState('');
     const { theme } = useThemeContext();
+    const { useBlockUser } = useUserService();
+    const { blockUser } = useBlockUser();
+    const queryClient = useQueryClient();
 
     async function blockUserHandler() {
-        // await blockUser(userId, reason); 
+        const { blockUserResponse } = await blockUser({ userId: resourceId, reason });
+        await blockUserResponse;
+        await queryClient.invalidateQueries(['users']);
         setShowModal(false);
         setDropdownIsExpanded(false);
         setShowSuccessMessage(true);
-        setSuccessMessage('Успешно блокирахте потребителя.')
+        setSuccessMessage('Успешно блокирахте потребителя.');
     }
 
     return (
@@ -57,7 +63,7 @@ export default function BlockAction({
                     selectionColor={theme === 'light' ? 'rgba(124,113,192,0.9)' : 'floralwhite'}
                     onFocus={() => setInputIsFocused(true)}
                     onBlur={() => setInputIsFocused(false)}
-                    // onChangeText={(text) => setReason(text)}
+                    onChangeText={(text) => setReason(text)}
                 />
                 <TouchableOpacity style={modalStyles.buttonsContainer} onPress={blockUserHandler}>
                     <View

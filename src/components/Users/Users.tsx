@@ -52,7 +52,7 @@ export default function Users() {
                 <FlatList
                     refreshControl={<RefreshControl refreshing={refreshData} onRefresh={onRefresh} />}
                     style={userStyles.container}
-                    keyExtractor={item => item.username}
+                    keyExtractor={item => item.id + item.username + item.Order}
                     data={userData}
                     renderItem={({ item }) => (
                         <Table

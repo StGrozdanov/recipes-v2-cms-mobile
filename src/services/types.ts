@@ -185,3 +185,8 @@ export type ChangeRoleParams = {
     role: string,
     userId: number,
 }
+
+export type BlockUserParams = {
+    userId: number,
+    reason: string,
+}
