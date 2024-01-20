@@ -1,4 +1,4 @@
-export const notificationConstants = {
+export const notificationConstants: Record<string, string> = {
     EDITED_RECIPE: 'Редактира рецепта',
     CREATED_RECIPE: 'Създаде рецепта',
     DELETED_RECIPE: 'Изтри рецепта',

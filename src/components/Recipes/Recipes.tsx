@@ -8,6 +8,7 @@ import SuccessModal from "../ModalDialogue/SuccessModal";
 import { useRecipesService } from "../../services/recipesService";
 import { useQueryClient } from "react-query";
 import { RecipeData } from "@/services/types";
+import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
 
 export default function Recipes() {
     const [refreshData, setRefreshData] = useState(false);
@@ -18,12 +19,19 @@ export default function Recipes() {
     const { useGetAllRecipes } = useRecipesService();
     const { recipes, recipesAreLoading } = useGetAllRecipes();
     const queryClient = useQueryClient();
+    const navigationRoute: RouteProp<{ params: { itemId: string } }, 'params'> = useRoute();
+    const { setParams } = useNavigation();
 
     useEffect(() => {
         if (search.collection === 'Recipes') {
             setRecipeData(() => {
                 return search.results.length > 0 ? recipes?.filter(recipe => search.results.includes(recipe.recipeName)) : []
             });
+        } else if (navigationRoute.params && navigationRoute.params.itemId !== '') {
+            setRecipeData(() => {
+                return recipes?.filter(recipe => recipe.recipeName === navigationRoute.params.itemId)
+            });
+            setParams({ itemId: '' } as never);
         } else {
             recipes?.map((recipe, index) => {
                 recipe.Owner = recipe.ownerName;

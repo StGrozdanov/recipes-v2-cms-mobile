@@ -25,7 +25,11 @@ export default function Notifications() {
 
     const readHandler = async (id: number, location: string, action: keyof typeof notificationConstants) => {
         await markAsRead(id);
-        await queryClient.invalidateQueries(['userNotifications', username]);
+        await Promise.all([
+            queryClient.invalidateQueries(['userNotifications', username]),
+            queryClient.invalidateQueries(['recipes']),
+            queryClient.invalidateQueries(['comments']),
+        ])
         action.includes('коментар')
             ? navigate('Comments' as never)
             : dispatch(CommonActions.navigate({ name: 'Recipes', params: { itemId: location } }))
@@ -46,7 +50,7 @@ export default function Notifications() {
                 data={notifications}
                 renderItem={({ item }) => (
                     <NotificationCard
-                        action={item.action}
+                        action={notificationConstants[item.action]}
                         createdAt={item.createdAt}
                         locationId={item.locationName}
                         objectId={item.id}
