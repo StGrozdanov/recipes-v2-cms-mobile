@@ -1,4 +1,4 @@
-import { BASE_URL, UserData } from "./types";
+import { BASE_URL, ChangeRoleParams, UserData } from "./types";
 import { useRequestHandler } from "../hooks/useRequestHandler";
 import { useMutation, useQuery } from "react-query";
 import { useCallback } from "react";
@@ -8,7 +8,7 @@ import { useCallback } from "react";
  * @returns handler functions
  */
 export const useUserService = () => {
-    const { authGET, authDELETE } = useRequestHandler();
+    const { authGET, authDELETE, authPATCH } = useRequestHandler();
 
     const useGetAllUsers = () => {
         const {
@@ -46,8 +46,31 @@ export const useUserService = () => {
         return { deleteUser, isLoading, isError };
     };
 
+    const useUpdateRole = () => {
+        const {
+            mutateAsync: updateUserRoleMutation,
+            isLoading,
+            isError,
+        } = useMutation((data: ChangeRoleParams) => {
+            const response: Promise<{ status: string }> = authPATCH(`${BASE_URL}/admin/users/change-role`, data);
+            return response;
+        });
+
+        const changeRole = useCallback(async (data: ChangeRoleParams) => {
+            try {
+                const updateUserRoleResponse = updateUserRoleMutation(data);
+                return { updateUserRoleResponse };
+            } catch (error) {
+                return { error };
+            }
+        }, [updateUserRoleMutation]);
+
+        return { changeRole, isLoading, isError };
+    };
+
     return {
         useGetAllUsers,
         useDeleteUser,
+        useUpdateRole,
     }
 }

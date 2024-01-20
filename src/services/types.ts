@@ -180,3 +180,8 @@ export type CommentData = {
     Owner: string,
     Location: string,
 }
+
+export type ChangeRoleParams = {
+    role: string,
+    userId: number,
+}

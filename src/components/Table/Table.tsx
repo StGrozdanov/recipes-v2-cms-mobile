@@ -87,7 +87,7 @@ export default function Table({
                     approveAction={approveAction}
                     changeRoleAction={changeRoleAction}
                     objectId={data.id}
-                    userRole={data.primaryRole}
+                    userRole={data.role}
                     removeUser={removeUser}
                     setDropdownIsExpanded={setDropdownIsExpanded}
                     userIsBlocked={data.blocked}

@@ -3,11 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { actionStyles } from "./ActionsStyleSheet";
 import { faPeopleArrowsLeftRight } from '@fortawesome/free-solid-svg-icons/faPeopleArrowsLeftRight';
 import OptionsModal from "../ModalDialogue/OptionsModal";
-import { useEffect, useState } from "react";
-// import { changeUserRole } from "../../services/userService";
+import { useCallback, useEffect, useState } from "react";
+import { useUserService } from "../../services/userService";
+import { useQueryClient } from "react-query";
 
 const changeRoleMessage = 'Изберете роля за потребителя'
-const roleChoices = ['Администратор', 'Модератор', 'Потребител'];
+const roleChoices = ['ADMINISTRATOR', 'MODERATOR', 'USER'];
 
 type RoleActionProps = {
     userRole: string,
@@ -16,18 +17,25 @@ type RoleActionProps = {
 
 export default function ChangeRoleAction({
     userRole,
-    // userId
+    userId
 }: RoleActionProps) {
     const [showModal, setShowModal] = useState(false);
     const [currentRole, setCurrentRole] = useState(userRole);
     const [roleChangeRequest, setRoleChangeRequest] = useState(false);
+    const { useUpdateRole } = useUserService();
+    const { changeRole } = useUpdateRole();
+    const queryClient = useQueryClient()
 
     useEffect(() => {
         if (roleChangeRequest) {
-            // changeUserRole(userId, currentRole)
-            // .then(console.log(`Role change success user ${userId} is now ${currentRole}`))
-            // .catch((err: any) => console.log(err.message));
+            updateUserRoleHandler();
         }
+    }, [currentRole]);
+
+    const updateUserRoleHandler = useCallback(async () => {
+        const { updateUserRoleResponse } = await changeRole({ role: currentRole, userId });
+        await updateUserRoleResponse;
+        await queryClient.invalidateQueries(['users']);
     }, [currentRole]);
 
     return (
