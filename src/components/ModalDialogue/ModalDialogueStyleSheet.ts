@@ -67,7 +67,7 @@ export const modalStyles: Record<string, any> = StyleSheet.create({
         position: 'absolute',
         top: '10%',
         right: '7%',
-        fontWeight: '1000',
+        fontWeight: '900',
     },
 
     optionsContainer: {

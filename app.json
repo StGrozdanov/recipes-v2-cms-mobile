@@ -6,17 +6,12 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.stgrr.recipesadministratev2"
+      "bundleIdentifier": "com.stgrr.recipesadministratev2",
+      "entitlements": {
+        "aps-environment": "production"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -38,8 +33,24 @@
       "url": "https://u.expo.dev/a2169adf-1d8b-4e88-94b3-ddc35d1a31d5"
     },
     "plugins": [
-      "@config-plugins/detox"
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#ffffff"
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ]
     ],
-    "runtimeVersion": "1.0.0"
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    }
   }
 }

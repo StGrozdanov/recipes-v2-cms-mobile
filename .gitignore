@@ -34,3 +34,9 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+expo-env.d.ts
+
+# generated native folders (Continuous Native Generation)
+/ios
+/android
+.kotlin/

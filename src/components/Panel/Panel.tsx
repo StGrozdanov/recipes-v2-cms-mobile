@@ -4,8 +4,7 @@ import { useThemeContext } from "../../hooks/useThemeContext";
 import Navigation from "../Navigation/Navigation";
 import Header from "../Header/Header";
 import { StatusBar } from "expo-status-bar";
-import * as NavigationBar from 'expo-navigation-bar';
-import * as Device from 'expo-device';
+import { NavigationBar } from 'expo-navigation-bar';
 import { ContainerProps } from "../../contexts/types";
 import { useNotificationsService } from "../../services/notificationsService";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -20,12 +19,6 @@ export default function Panel({ children }: ContainerProps) {
 
     const androidNavAndStatusBarColors = theme === 'light' ? 'dark' : 'light';
 
-    if (Device.brand !== 'Apple') {
-        const androidNavBarBackground = theme === 'light' ? '#EFEEFE' : 'black';
-        NavigationBar.setBackgroundColorAsync(androidNavBarBackground);
-        NavigationBar.setButtonStyleAsync(androidNavAndStatusBarColors);
-    };
-
     return (
         notificationsAreLoading
             ? <Image
@@ -33,11 +26,8 @@ export default function Panel({ children }: ContainerProps) {
                 style={{ position: 'absolute', top: '35%', width: '100%', height: '10%', }}
             />
             : <>
-                <StatusBar
-                    backgroundColor={theme === 'light' ? "#EFEEFE" : "rgba(124,113,192,0.9)"
-                    }
-                    style={androidNavAndStatusBarColors}
-                />
+                <StatusBar style={androidNavAndStatusBarColors} />
+                <NavigationBar style={androidNavAndStatusBarColors} />
                 <View style={adminPanel[theme + 'Container']}>
                     <Header
                         notificationsCount={

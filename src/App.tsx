@@ -1,4 +1,3 @@
-import { NOTIFY_APP_ID, NOTIFY_APP_TOKEN, SOCKET_URL } from "@env";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthProvider } from './contexts/AuthContext';
@@ -7,7 +6,7 @@ import { queryConfig } from './configs/reactQueryConfig';
 import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
-import registerRootComponent from 'expo/build/launch/registerRootComponent';
+import { registerRootComponent } from 'expo';
 import registerNNPushToken from 'native-notify';
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Panel from "./components/Panel/Panel";
@@ -19,6 +18,10 @@ import Settings from "./components/Settings/Settings";
 import UserProfile from "./components/UserProfile/UserProfile";
 import useWebSocket from "react-use-websocket";
 import Notifications from "./components/Notifications/Notifications";
+import { SOCKET_URL } from "./services/types";
+
+const NOTIFY_APP_ID = process.env.EXPO_PUBLIC_NOTIFY_APP_ID ?? '';
+const NOTIFY_APP_TOKEN = process.env.EXPO_PUBLIC_NOTIFY_APP_TOKEN ?? '';
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient(queryConfig);

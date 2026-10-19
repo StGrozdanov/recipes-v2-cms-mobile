@@ -1,37 +1,16 @@
 {
   "cli": {
-    "version": ">= 6.0.0"
+    "version": ">= 16.0.0",
+    "appVersionSource": "remote"
   },
   "build": {
-    "development": {
-      "distribution": "internal",
-      "android": {
-        "gradleCommand": ":app:assembleDebug"
-      },
-      "ios": {
-        "buildConfiguration": "Debug"
-      },
-      "channel": "development"
-    },
     "preview": {
       "distribution": "internal",
-      "channel": "preview"
-    },
-    "production": {
-      "channel": "production"
-    },
-    "test": {
-      "android": {
-        "gradleCommand": ":app:assembleRelease :app:assembleAndroidTest -DtestBuildType=release",
-        "withoutCredentials": true
-      },
+      "channel": "preview",
+      "environment": "preview",
       "ios": {
-        "simulator": true
-      },
-      "buildArtifactPaths": ["artifacts/**/*.png"]
+        "resourceClass": "m-medium"
+      }
     }
-  },
-  "submit": {
-    "production": {}
   }
 }

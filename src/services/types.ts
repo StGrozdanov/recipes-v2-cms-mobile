@@ -1,7 +1,6 @@
 import { InfiniteData } from "react-query";
-import { DEV_BACKEND_URL, BACKEND_URL } from "@env";
-
-export const BASE_URL = DEV_BACKEND_URL || BACKEND_URL;
+export const BASE_URL = 'https://recipes-v2-server.fly.dev';
+export const SOCKET_URL = 'wss://recipes-v2-server.fly.dev/realtime-notifications';
 
 export type RecipeSummary = {
     imageURL: string,
