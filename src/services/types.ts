@@ -1,7 +1,5 @@
 import { InfiniteData } from "react-query";
-import { DEV_BACKEND_URL, BACKEND_URL } from "@env";
-
-export const BASE_URL = DEV_BACKEND_URL || BACKEND_URL;
+export const BASE_URL = process.env.EXPO_PUBLIC_DEV_BACKEND_URL || process.env.EXPO_PUBLIC_BACKEND_URL;
 
 export type RecipeSummary = {
     imageURL: string,

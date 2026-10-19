@@ -10,19 +10,52 @@ This client is made with React Native, Typescript and Expo.
 
 - :art: Sass 
 - ☑️ TypeScript 
-- 🧪 Detox & Jest
+- 🧪 Jest
 - 🪝 pre-commit and pre-push hooks
 - Expo
 
 ## Features
 
-- CI/CD pipeline consisting of typechecking, custom linters, unit tests, integration tests, e2e tests and a single deployment environment
+- CI/CD pipeline consisting of typechecking, linters, unit tests and OTA deployment via EAS Update
 - Responsive design with Sass
 - Various frontend libraries for an enhanced user experience
 - White and Dark theme
 - Websocket integration
 - Push Notifications
 - Charts
+
+## Getting Started
+
+Requires Node 24+.
+
+```bash
+npm install --legacy-peer-deps
+cp .env.example .env   # fill in backend, socket and native-notify values
+npx expo run:ios       # generates ios/ via prebuild and runs in the simulator
+```
+
+The `ios/` and `android/` folders are generated (Continuous Native Generation) and are not committed.
+
+## Private install (no App Store)
+
+The app is distributed only to a registered iPhone using an EAS internal (ad-hoc) build.
+
+One-time setup:
+
+1. Register the iPhone: `eas device:create`, then open the link on the phone.
+2. On the iPhone enable **Settings → Privacy & Security → Developer Mode** and reboot.
+3. Create the EAS environment variables for the `preview` environment (same names as `.env.example`):
+   `eas env:create --environment preview --name EXPO_PUBLIC_BACKEND_URL --value <url> --visibility plaintext` (repeat for each).
+4. Build: `eas build --profile preview --platform ios`. Let EAS create the ad-hoc provisioning profile and say yes to setting up a push notifications key.
+5. Install from the QR code / link on the build page.
+
+The ad-hoc profile expires after ~12 months, so rebuild once a year. Rebuilding is also needed after native dependency or Expo SDK changes (`runtimeVersion` follows the SDK version).
+
+## CI/CD
+
+- Pull requests to `main` ([pr.yml](./.github/workflows/pr.yml)): install → typecheck / lint / unit tests.
+- Push to `main` ([build.yml](./.github/workflows/build.yml)): the same gates → `eas update` on branch `preview` for iOS. The installed app picks the update up on its next cold start.
+- Requires the `EXPO_TOKEN` repository secret. App config comes from the EAS `preview` environment.
 
 ## Screenshots
 
