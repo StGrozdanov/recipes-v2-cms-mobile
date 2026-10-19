@@ -18,10 +18,10 @@ import Settings from "./components/Settings/Settings";
 import UserProfile from "./components/UserProfile/UserProfile";
 import useWebSocket from "react-use-websocket";
 import Notifications from "./components/Notifications/Notifications";
+import { SOCKET_URL } from "./services/types";
 
 const NOTIFY_APP_ID = process.env.EXPO_PUBLIC_NOTIFY_APP_ID ?? '';
 const NOTIFY_APP_TOKEN = process.env.EXPO_PUBLIC_NOTIFY_APP_TOKEN ?? '';
-const SOCKET_URL = process.env.EXPO_PUBLIC_SOCKET_URL ?? '';
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient(queryConfig);

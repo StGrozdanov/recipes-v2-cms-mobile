@@ -30,7 +30,7 @@ Requires Node 24+.
 
 ```bash
 npm install --legacy-peer-deps
-cp .env.example .env   # fill in backend, socket and native-notify values
+cp .env.example .env   # fill in the native-notify values
 npx expo run:ios       # generates ios/ via prebuild and runs in the simulator
 ```
 
@@ -45,7 +45,7 @@ One-time setup:
 1. Register the iPhone: `eas device:create`, then open the link on the phone.
 2. On the iPhone enable **Settings → Privacy & Security → Developer Mode** and reboot.
 3. Create the EAS environment variables for the `preview` environment (same names as `.env.example`):
-   `eas env:create --environment preview --name EXPO_PUBLIC_BACKEND_URL --value <url> --visibility plaintext` (repeat for each).
+   `eas env:create --environment preview --name EXPO_PUBLIC_NOTIFY_APP_ID --value <id> --visibility plaintext` (repeat for the token).
 4. Build: `eas build --profile preview --platform ios`. Let EAS create the ad-hoc provisioning profile and say yes to setting up a push notifications key.
 5. Install from the QR code / link on the build page.
 
