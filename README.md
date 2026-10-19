@@ -29,7 +29,7 @@ This client is made with React Native, Typescript and Expo.
 Requires Node 24+.
 
 ```bash
-npm install --legacy-peer-deps
+npm install
 cp .env.example .env   # fill in the native-notify values
 npx expo run:ios       # generates ios/ via prebuild and runs in the simulator
 ```
